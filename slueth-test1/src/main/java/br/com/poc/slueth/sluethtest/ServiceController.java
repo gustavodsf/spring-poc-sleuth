@@ -2,11 +2,13 @@ package br.com.poc.slueth.sluethtest;
 
 import java.time.LocalDateTime;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import reactor.core.publisher.Mono;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 public class ServiceController {
@@ -17,8 +19,9 @@ public class ServiceController {
         this.service2Client = service2Client;
     }
 
-    @GetMapping("/start")
-    public Mono<String> start() {
+    @GetMapping("/start/{name}")
+    public Mono<String> start(@PathVariable("name") String name) {
+
         return this.service2Client.start();
     }
 
@@ -29,7 +32,7 @@ public class ServiceController {
 
     @PostMapping("/start")
     public Mono<String> postStart() {
-        return start();
+        return start("TESTE");
     }
 
     @PostMapping("/readtimeout")
