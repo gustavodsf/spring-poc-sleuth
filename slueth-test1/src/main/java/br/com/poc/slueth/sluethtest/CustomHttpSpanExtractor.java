@@ -1,5 +1,6 @@
 package br.com.poc.slueth.sluethtest;
 
+import org.slf4j.MDC;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.cloud.sleuth.autoconfig.instrument.web.SleuthWebProperties;
@@ -39,7 +40,12 @@ class MyFilter extends GenericFilterBean {
         // for readability we're returning trace id in a hex form
         ((HttpServletResponse) servletResponse).addHeader("ZIPKIN-TRACE-ID", currentSpan.context().traceId());
         // we can also add some custom tags
+
+        MDC.put("log-id","userid-12345");
+
+
         currentSpan.tag("custom", "tag");
         filterChain.doFilter(servletRequest, servletResponse);
+        MDC.clear();
     }
 }

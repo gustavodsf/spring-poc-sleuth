@@ -7,21 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.sleuth.BaggageInScope;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
-import org.springframework.cloud.sleuth.annotation.NewSpan;
-import org.springframework.cloud.sleuth.annotation.SpanTag;
-import org.springframework.cloud.sleuth.annotation.TagValueResolver;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.WebFilter;
 import reactor.core.publisher.Mono;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.Filter;
-import javax.servlet.http.HttpServletResponse;
-
 
 @Slf4j
 @RestController
@@ -29,10 +20,9 @@ public class ServiceController {
 
 
     private final BaggageField countryCodeField;
-
     private final Service2Client service2Client;
-
     private final Tracer tracer;
+
 
     public ServiceController(BaggageField countryCodeField, Service2Client service2Client, Tracer tracer) {
         this.countryCodeField = countryCodeField;
@@ -48,6 +38,8 @@ public class ServiceController {
 
         this.countryCodeField.updateValue("new-value");
 
+        BaggageInScope businessProcess = this.tracer.createBaggage("BPP").set("ALM");
+
         // Start a span. If there was a span present in this thread it will become
         // the `newSpan`'s parent.
         Span newSpan = this.tracer.currentSpan();
@@ -60,6 +52,7 @@ public class ServiceController {
             newSpan.tag("taxValue", "120");
             // ...
             // You can log an event on a span
+
             newSpan.event("taxCalculated");
         }
         finally {
@@ -67,6 +60,8 @@ public class ServiceController {
             // the span to send it to a distributed tracing system e.g. Zipkin
             newSpan.end();
         }
+
+
 
         return this.service2Client.start();
     }
@@ -85,6 +80,4 @@ public class ServiceController {
     public Mono<String> postTimeout() throws InterruptedException {
         return timeout();
     }
-
-
 }

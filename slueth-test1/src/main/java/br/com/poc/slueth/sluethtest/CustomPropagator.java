@@ -10,7 +10,7 @@ import zipkin2.internal.HexCodec;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+// @Component
 class CustomPropagator extends Propagation.Factory implements Propagation<String>
 {
     @Override

@@ -1,7 +1,6 @@
 package br.com.poc.slueth.sluethtest;
 
-import brave.baggage.BaggageField;
-import brave.baggage.CorrelationScopeConfig;
+import brave.baggage.*;
 import brave.context.slf4j.MDCScopeDecorator;
 import brave.handler.MutableSpan;
 import brave.handler.SpanHandler;
@@ -16,12 +15,9 @@ import org.springframework.cloud.sleuth.instrument.web.HttpServerRequestParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.server.WebFilter;
 
 @Configuration(proxyBeanMethods = false)
 public class Config {
@@ -88,6 +84,23 @@ public class Config {
                 resp.addHeader("mytraceid", currentSpan.context().traceId());
             }
             chain.doFilter(request, response);
+        };
+    }
+
+    @Bean
+    public BaggagePropagationCustomizer baggagePropagationCustomizer() {
+        return (factoryBuilder) -> {
+            factoryBuilder.add(
+                    BaggagePropagationConfig.SingleBaggageField.remote(BaggageField.create("Correlation-Id")));
+        };
+    }
+
+    @Bean
+    public CorrelationScopeCustomizer correlationScopeCustomizer() {
+        return builder -> {
+            builder.add(CorrelationScopeConfig.SingleCorrelationField.newBuilder(BaggageField.create("Correlation-Id"))
+                    .flushOnUpdate()
+                    .build());
         };
     }
 
