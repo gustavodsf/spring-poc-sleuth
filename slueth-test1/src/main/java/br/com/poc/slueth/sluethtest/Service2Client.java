@@ -46,12 +46,14 @@ public class Service2Client {
             span.event("secret_baggage_received");
             span.tag("baggage", secretBaggage);
         }
+        /*
         String baggageKey = "key";
         String baggageValue = "foo";
         BaggageInScope baggageField = this.tracer.createBaggage(baggageKey);
         baggageField.set(span.context(), baggageValue);
         span.event("baggage_set");
         span.tag(baggageKey, baggageValue);
+        */
         log.info("Hello from service1. Calling service2");
         return webClient.get()
                 .uri("http://" + serviceAddress + "/foo")
@@ -67,7 +69,7 @@ public class Service2Client {
                     if (secretBaggageField != null) {
                         secretBaggageField.close();
                     }
-                    baggageField.close();
+                    // baggageField.close();
                 });
     }
 

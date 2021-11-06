@@ -1,60 +1,61 @@
 package br.com.poc.slueth.sluethtest;
 
+import brave.handler.MutableSpan;
+import brave.handler.SpanHandler;
+import brave.propagation.TraceContext;
+import zipkin2.Span;
+import brave.baggage.*;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.sleuth.autoconfig.zipkin2.ZipkinAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import zipkin2.Call;
-import zipkin2.Span;
-import zipkin2.codec.Encoding;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Reporter;
 import zipkin2.reporter.Sender;
 
-import java.util.List;
-
 @Configuration(proxyBeanMethods = false)
 public class MyConfig {
 
-    @Bean(ZipkinAutoConfiguration.REPORTER_BEAN_NAME)
-    Reporter<Span> myReporter(@Qualifier(ZipkinAutoConfiguration.SENDER_BEAN_NAME) MySender mySender) {
+    @Value( "${dock.starter.core.header.uuid.request}" )
+    private String uuidRequest;
+
+    @Bean
+    public BaggagePropagationCustomizer baggagePropagationCustomizer() {
+        return (factoryBuilder) -> {
+            factoryBuilder.add(
+                    BaggagePropagationConfig.SingleBaggageField.remote(BaggageField.create(uuidRequest)));
+        };
+    }
+
+    @Bean
+    public CorrelationScopeCustomizer correlationScopeCustomizer() {
+        return builder -> {
+            builder.add(CorrelationScopeConfig.SingleCorrelationField.newBuilder(BaggageField.create(uuidRequest))
+                    .flushOnUpdate()
+                    .build());
+        };
+    }
+
+    /*@Bean(ZipkinAutoConfiguration.REPORTER_BEAN_NAME)
+    Reporter<Span> myReporter(@Qualifier(ZipkinAutoConfiguration.SENDER_BEAN_NAME) Sender mySender) {
         return AsyncReporter.create(mySender);
     }
 
     @Bean(ZipkinAutoConfiguration.SENDER_BEAN_NAME)
-    MySender mySender() {
-        return new MySender();
+    Sender mySender() {
+        return new DummySender();
+    }*/
+
+    @Bean
+    SpanHandler handlerOne() {
+        return new SpanHandler() {
+            @Override
+            public boolean end(TraceContext traceContext, MutableSpan span, Cause cause) {
+                String[] pattern = span.name().split(" ");
+                span.tag("pattern", pattern.length > 0 ? pattern[1] : "");
+                return true; // keep this span
+            }
+        };
     }
-
-    static class MySender extends Sender {
-
-        private boolean spanSent = false;
-
-        boolean isSpanSent() {
-            return this.spanSent;
-        }
-
-        @Override
-        public Encoding encoding() {
-            return Encoding.JSON;
-        }
-
-        @Override
-        public int messageMaxBytes() {
-            return Integer.MAX_VALUE;
-        }
-
-        @Override
-        public int messageSizeInBytes(List<byte[]> encodedSpans) {
-            return encoding().listSizeInBytes(encodedSpans);
-        }
-
-        @Override
-        public Call<Void> sendSpans(List<byte[]> encodedSpans) {
-            this.spanSent = true;
-            return Call.create(null);
-        }
-
-    }
-
 }

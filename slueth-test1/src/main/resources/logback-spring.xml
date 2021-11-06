@@ -24,12 +24,12 @@
                         <omitEmptyFields>true</omitEmptyFields>
                         <pattern>
                             {
-                                "trace": {
-                                    "trace_id": "%mdc{X-B3-TraceId}",
-                                    "span_id": "%mdc{X-B3-SpanId}",
-                                    "parent_span_id": "%mdc{X-B3-ParentSpanId}",
-                                    "exportable": "%mdc{X-Span-Export}",
-                                }
+                            "trace": {
+                            "trace_id": "%mdc{X-B3-TraceId}",
+                            "span_id": "%mdc{X-B3-SpanId}",
+                            "parent_span_id": "%mdc{X-B3-ParentSpanId}",
+                            "exportable": "%mdc{X-Span-Export}",
+                            }
                             }
                         </pattern>
                     </pattern>
@@ -59,7 +59,7 @@
     <springProfile name="!docker">
 
         <property name="CONSOLE_LOG_PATTERN"
-                  value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) MDC=[%X{Correlation-Id}] %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+                  value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) UUID-REQ=[%X{uuid_request}] %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
         <appender name="flatConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
