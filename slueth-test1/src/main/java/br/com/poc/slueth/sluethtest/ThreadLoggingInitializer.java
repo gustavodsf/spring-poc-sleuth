@@ -16,7 +16,7 @@ public class ThreadLoggingInitializer {
 
     private static org.slf4j.Logger LOG = LoggerFactory.getLogger(ThreadLoggingInitializer.class);
 
-    @EventListener
+    /* @EventListener
     public void handleContextRefresh(ContextRefreshedEvent event) {
         LoggerContext loggerContext = ((Logger) LoggerFactory.getLogger("")).getLoggerContext();
         loggerContext.addTurboFilter(new TurboFilter() {
@@ -29,5 +29,5 @@ public class ThreadLoggingInitializer {
             }
         });
         LOG.info("ThreadLogging support initialized");
-    }
+    } */
 }
