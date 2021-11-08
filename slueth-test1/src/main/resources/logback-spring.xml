@@ -74,4 +74,10 @@
 
     </springProfile>
 
+    <appender name="map" class="br.com.poc.slueth.sluethtest.TraceAppender"/>
+    <root level="info">
+        <appender-ref ref="map"/>
+    </root>
+
+
 </configuration>

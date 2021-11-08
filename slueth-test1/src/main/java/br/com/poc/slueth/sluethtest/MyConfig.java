@@ -37,7 +37,7 @@ public class MyConfig {
         };
     }
 
-    /*@Bean(ZipkinAutoConfiguration.REPORTER_BEAN_NAME)
+    @Bean(ZipkinAutoConfiguration.REPORTER_BEAN_NAME)
     Reporter<Span> myReporter(@Qualifier(ZipkinAutoConfiguration.SENDER_BEAN_NAME) Sender mySender) {
         return AsyncReporter.create(mySender);
     }
@@ -45,7 +45,7 @@ public class MyConfig {
     @Bean(ZipkinAutoConfiguration.SENDER_BEAN_NAME)
     Sender mySender() {
         return new DummySender();
-    }*/
+    }
 
     @Bean
     SpanHandler handlerOne() {
