@@ -5,7 +5,6 @@ import ch.qos.logback.core.AppenderBase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 
 @Slf4j
 @Component
@@ -27,8 +26,9 @@ public class TraceAppender extends AppenderBase<ILoggingEvent> {
     }
 
     @Override
-    protected void append(ILoggingEvent event) {
+    protected void append(ILoggingEvent iLoggingEvent) {
+        GeneralTrace generalTrace =  new GeneralTrace(iLoggingEvent);
         System.out.println("Appender");
-    }
 
+    }
 }
