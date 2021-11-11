@@ -1,15 +1,17 @@
 package br.com.poc.slueth.sluethtest;
 
-import com.google.gson.Gson;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import lombok.extern.slf4j.Slf4j;
 import zipkin2.Call;
 import zipkin2.codec.Encoding;
 import zipkin2.reporter.Sender;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
 @Slf4j
+@Component
 public class DummySender extends Sender {
 
     private boolean spanSent = false;

@@ -1,6 +1,7 @@
 package br.com.poc.slueth.sluethtest;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +22,8 @@ public class ServiceController {
 
     @GetMapping("/start/{name}")
     public Mono<String> start(@PathVariable("name") String name) {
-        log.info("Hello example "+ name);
-        return this.service2Client.start();
+        log.info("Hello example "+ name);     
+    	return this.service2Client.start();
     }
 
     @GetMapping("/readtimeout")

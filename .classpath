@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="slueth-test1/.mvn/wrapper"/>
+	<classpathentry kind="src" path="slueth-test1/src/main/java"/>
+	<classpathentry kind="src" path="slueth-test1/src/test/java"/>
+	<classpathentry kind="src" path="slueth-test2/.mvn/wrapper"/>
+	<classpathentry kind="src" path="slueth-test2/src/main/java"/>
+	<classpathentry kind="src" path="slueth-test2/src/test/java"/>
+	<classpathentry kind="src" path="slueth-test3/.mvn/wrapper"/>
+	<classpathentry kind="src" path="slueth-test3/src/main/java"/>
+	<classpathentry kind="src" path="slueth-test3/src/test/java"/>
+	<classpathentry kind="src" path="slueth-test4/.mvn/wrapper"/>
+	<classpathentry kind="src" path="slueth-test4/src/main/java"/>
+	<classpathentry kind="src" path="slueth-test4/src/test/java"/>
+	<classpathentry kind="lib" path="slueth-test1/target/slueth-test-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="slueth-test2/target/slueth-test-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="slueth-test3/target/slueth-test-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="slueth-test4/target/slueth-test-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="slueth-test1/target/classes"/>
+</classpath>

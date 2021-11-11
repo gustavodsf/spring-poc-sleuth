@@ -19,6 +19,11 @@ public class MyConfig {
 
     @Value( "${dock.starter.core.header.uuid.request}" )
     private String uuidRequest;
+    
+    @Value( "${dock.starter.core.topic}" )
+    private String topic;
+    
+    private Integer partition = null;
 
     @Bean
     public BaggagePropagationCustomizer baggagePropagationCustomizer() {
@@ -44,7 +49,7 @@ public class MyConfig {
 
     @Bean(ZipkinAutoConfiguration.SENDER_BEAN_NAME)
     Sender mySender() {
-        return new DummySender();
+        return new SplunkSender(topic, partition);
     }
 
     @Bean
